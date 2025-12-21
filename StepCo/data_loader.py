@@ -30,6 +30,10 @@ class DataLoader:
             self.dataset = load_dataset('HuggingFaceH4/MATH-500')['test']
         elif self.dataset_name == 'minerva':
             self.dataset = load_dataset('math-ai/minervamath')['test']
+        elif self.dataset_name == 'aime2024':
+            self.dataset = load_dataset('Maxwell-Jia/AIME_2024')['train']
+        elif self.dataset_name == 'aime2025':
+            self.dataset = load_dataset('MathArena/aime_2025')['train']
         else:
             raise KeyError()
         # with open(self.dataset_path, 'r') as f:
@@ -49,6 +53,10 @@ class DataLoader:
             problems = [data.get('problem') for data in self.dataset]
         elif self.dataset_name == 'minerva':
             problems = [data.get('question') for data in self.dataset]
+        elif self.dataset_name == 'aime2024':
+            problems = [data.get('Problem') for data in self.dataset]
+        elif self.dataset_name == 'aime2025':
+            problems = [data.get('problem') for data in self.dataset]
         else:
             raise KeyError()
             # problems = [data.get('original_question') for data in self.dataset]
@@ -66,6 +74,10 @@ class DataLoader:
             gold_answers = [data.get('answer') for data in self.dataset]
         elif self.dataset_name == 'minerva':
             gold_answers = [data.get('answer') for data in self.dataset]
+        elif self.dataset_name == 'aime2024':
+            problems = [data.get('Solution') for data in self.dataset]
+        elif self.dataset_name == 'aime2025':
+            problems = [str(data.get('answer')) for data in self.dataset]
         else:
             raise KeyError()
 
