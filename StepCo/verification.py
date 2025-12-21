@@ -5,6 +5,8 @@ from transformers import AutoTokenizer
 from transformers import AutoModelForCausalLM
 import torch
 
+import os
+
 from config import Config
 
 
@@ -15,23 +17,36 @@ bad_token = '-'
 
 if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM']:
     step_tag = ' \n\n\n\n'
+    # step_tag = 'ки'
 elif config.verification_model in ['peiyi9979/math-shepherd-mistral-7b-prm']:
     step_tag = 'ки'
 else:
     raise KeyError()
 
+print(f'verification : step_tag : {step_tag}')
+
 device = torch.device("cuda")
 
+tokenizer = AutoTokenizer.from_pretrained(config.verification_model, token=os.getenv('HF_TOKEN'), cache_dir=os.getenv('CACHE_DIR'),)
+
 if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM']:
-    plus_tag_id = self.tokenizer.encode(positive_tag)[-1]
-    minus_tag_id = self.tokenizer.encode(negative_tag)[-1]
+    plus_tag_id = tokenizer.encode(good_token)[-1]
+    minus_tag_id = tokenizer.encode(bad_token)[-1]
     candidate_tokens = [plus_tag_id, minus_tag_id]
-    step_tag_id = tokenizer.encode(f"{step_tag}")[-1] 
+    # step_tag_id = tokenizer.encode(f"{step_tag}")[-1] 
+    step_tag_id = 23535
 elif config.verification_model in ['peiyi9979/math-shepherd-mistral-7b-prm']:
     candidate_tokens = tokenizer.encode(f"{good_token} {bad_token}")[1:]  # [648, 387]
     step_tag_id = tokenizer.encode(f"{step_tag}")[-1]  # 12902
 
-tokenizer = AutoTokenizer.from_pretrained(config.verification_model, token=os.getenv('HF_TOKEN'), cache_dir=os.getenv('CACHE_DIR'),)
+quantization_config = {
+    "load_in_4bit": True,
+    "load_in_8bit": False,
+    "bnb_4bit_use_double_quant": True,
+    "bnb_4bit_compute_dtype": "float16",
+    "bnb_4bit_quant_type": "nf4",
+}
+
 model = AutoModelForCausalLM.from_pretrained(
     config.verification_model, 
     torch_dtype=torch.float16, 

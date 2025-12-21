@@ -12,6 +12,10 @@ from transformers import (
 )
 from transformers import Gemma3ForConditionalGeneration
 
+from config import Config
+
+
+config = Config()
 
 _HF = {"tokenizer": None, "model": None, "device": None}
 
@@ -129,7 +133,7 @@ def _load_hf_once(model_name: str, cache_dir: str | None = None):
     _HF["meta"] = meta
 
 
-def answered_by_hf(user_input: str, config) -> str:
+def answered_by_hf(user_input: str) -> str:
     _load_hf_once(
         model_name=config.backend_LLM,
         cache_dir=getattr(config, "hf_cache_dir", None),

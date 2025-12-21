@@ -29,11 +29,12 @@ dataset_name = config.dataset_name_list[dataset_index]
 data_loader = DataLoader(dataset_name, config.dataset_root_path)
 problems = data_loader.get_problems()
 gold_answers = data_loader.get_gold_answers()
-gold_reasoning_paths = data_loader.get_gold_reasoning_paths()
-if dataset_name=='MATH':
-    subject, level = data_loader.get_other_information()
-data_loader.print_avg_tokens(problems)
+# gold_reasoning_paths = data_loader.get_gold_reasoning_paths()
+# if dataset_name=='MATH':
+#     subject, level = data_loader.get_other_information()
+# data_loader.print_avg_tokens(problems)
 answer_save_path = os.path.join(config.result_save_root_path, f'{dataset_name}-{config.prompt_strategy}-{config.backend_LLM}.txt')
+os.makedirs(config.result_save_root_path, exist_ok=True)
 print(f'[INFO] Answer save path: {answer_save_path}')
 
 

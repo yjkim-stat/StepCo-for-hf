@@ -7,9 +7,18 @@ from hf_response import answered_by_hf
 from prompt_template import zero_shot_cot_prompt_template, get_numerical_answer_prompt_template, stepwise_rectify_prompt_template_v2
 from utils import get_reasoning_steps, find_first_smaller_index, post_process_value
 from config import Config
-step_tag = 'ки'
+
 config = Config()
 
+if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM']:
+    step_tag = ' \n\n\n\n'
+    # step_tag = 'ки'
+elif config.verification_model in ['peiyi9979/math-shepherd-mistral-7b-prm']:
+    step_tag = 'ки'
+else:
+    raise KeyError()
+
+print(f'solving_pipeline : step_tag : {step_tag}')
 
 def initialization(problem, record, verifier):
     input_str = zero_shot_cot_prompt_template.format(**{'instruction': "\n", 'question': problem})
@@ -17,7 +26,7 @@ def initialization(problem, record, verifier):
     initial_reasoning_path = answered_by_hf(input_str)
     record["iter-0"] = {}
     record["iter-0"]["reasoning_path"] = initial_reasoning_path
-    output_supervised_verifier = verifier(f"Q: {problem} \n A: {initial_reasoning_path} {step_tag}")
+    output_supervised_verifier = verifier(f"Q: {problem} \n A: {initial_reasoning_path}{step_tag}")
     record["iter-0"]["OSV"] = output_supervised_verifier
 
     input_str = get_numerical_answer_prompt_template.format(**{' ': '', 'question': problem, 'reasoning_path': initial_reasoning_path})
@@ -29,7 +38,7 @@ def initialization(problem, record, verifier):
 
 def rectification(problem, record, verifier, num_iter):
     reasoning_steps = get_reasoning_steps(record.get(f'iter-{num_iter-1}').get('reasoning_path'))
-    reasoning_steps_with_tag = '\n'.join([step + f' {step_tag}' for step in reasoning_steps if len(step) >= 5])
+    reasoning_steps_with_tag = '\n'.join([step + f'{step_tag}' for step in reasoning_steps if len(step) >= 5])
     process_supervised_verifier = verifier(f"Q: {record['problem']} \n A: {reasoning_steps_with_tag}")
     first_incorrect_step_idx = find_first_smaller_index(process_supervised_verifier, config.threshold)
     # record[f'iter-{num_iter - 1}']['reasoning_path'] = '\n'.join([step for step in reasoning_steps if len(step) >= 5])
@@ -45,7 +54,7 @@ def rectification(problem, record, verifier, num_iter):
         # rectified_reasoning_path = answered_by_openai(input_str)
         rectified_reasoning_path = answered_by_hf(input_str)
         record[f'iter-{num_iter}']["reasoning_path"] = rectified_reasoning_path
-        output_supervised_verifier = verifier(f"Q: {problem} \n A: {rectified_reasoning_path} {step_tag}")
+        output_supervised_verifier = verifier(f"Q: {problem} \n A: {rectified_reasoning_path}{step_tag}")
         record[f'iter-{num_iter}']["OSV"] = output_supervised_verifier
 
         input_str = get_numerical_answer_prompt_template.format(**{' ': '', 'question': problem, 'reasoning_path': rectified_reasoning_path})

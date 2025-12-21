@@ -20,6 +20,31 @@ A: {reasoning_path}
 Therefore, the answer (expressed in Arabic numerals and without units) is:
 """
 
+reasoning_prompt="""
+Solve the following math problem efficiently and clearly:
+
+- For simple problems (2 steps or fewer):
+Provide a concise solution with minimal explanation.
+
+- For complex problems (3 steps or more):
+Use this step-by-step format:
+
+## Step 1: [Concise description]
+[Brief explanation and calculations]
+
+## Step 2: [Concise description]
+[Brief explanation and calculations]
+
+...
+
+Regardless of the approach, always conclude with:
+
+Therefore, the final answer is: $\\boxed{{answer}}$. I hope it is correct.
+
+Where [answer] is just the final number or expression that solves the problem.
+
+{question}
+"""
 
 stepwise_rectify_prompt_template = """
 You are an intelligent student who is able to correct the reasoning path starting from a specified step pointed out by the teacher to ensure the result is accurate.

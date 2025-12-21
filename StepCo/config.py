@@ -9,9 +9,9 @@ class Config:
         # Dataset / pipeline
         # =========================
         self.dataset_name_list = [
-            'math500', 'aime2025', 'aime2024', 'amc23', 'minerva', 'olympiad',
+            'amc23',
         ]
-        self.dataset_root_path = os.getenv("DATASET_ROOT", "xxx")
+        self.dataset_root_path = os.getenv("DATASET_ROOT", None)
         self.prompt_strategy = "Stepwise-Correction"
 
         # =========================
