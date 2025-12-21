@@ -61,7 +61,7 @@ model = AutoModelForCausalLM.from_pretrained(
     use_cache=True).eval()
 
 def step_verify_score(input_seq):
-    if config.verification_model == 'UW-Madison-Lee-Lab/VersaPRM':
+    if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM', 'RLHFlow/Llama3.1-8B-PRM-Deepseek-Data']:
         return step_verify_score_for_versaprm(input_seq)
     elif config.verification_model == 'peiyi9979/math-shepherd-mistral-7b-prm':
         return step_verify_score_for_msm7b(input_seq)
