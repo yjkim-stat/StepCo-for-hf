@@ -66,7 +66,7 @@ def post_process_value(generate_answer, location=-1):
                 generate_answer = str(float(generate_answer.rstrip('%')) / 100)
             if ' ' in generate_answer:                                                              # 22 42 -> 42
                 generate_answer = generate_answer.split(' ')[0]
-            generate_answer = eval(generate_answer)
+            # generate_answer = eval(generate_answer)
 
         else:
             # 特殊符号处理
@@ -97,6 +97,6 @@ def post_process_value(generate_answer, location=-1):
             if type(generate_answer) == str and len(generate_answer) > 1 and generate_answer[0] in ['.', '/']: # 27. -> 27
                 generate_answer = generate_answer[1:]
                 generate_answer = generate_answer.strip()
-        if type(generate_answer) == str:
-            generate_answer = eval(generate_answer)
+        # if type(generate_answer) == str:
+        #     generate_answer = eval(generate_answer)
     return generate_answer
