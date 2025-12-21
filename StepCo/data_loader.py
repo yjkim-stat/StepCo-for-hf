@@ -75,9 +75,9 @@ class DataLoader:
         elif self.dataset_name == 'minerva':
             gold_answers = [data.get('answer') for data in self.dataset]
         elif self.dataset_name == 'aime2024':
-            problems = [data.get('Solution') for data in self.dataset]
+            gold_answers = [data.get('Solution') for data in self.dataset]
         elif self.dataset_name == 'aime2025':
-            problems = [str(data.get('answer')) for data in self.dataset]
+            gold_answers = [str(data.get('answer')) for data in self.dataset]
         else:
             raise KeyError()
 

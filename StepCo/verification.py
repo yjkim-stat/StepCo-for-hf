@@ -18,7 +18,7 @@ bad_token = '-'
 if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM']:
     step_tag = ' \n\n\n\n'
 elif config.verification_model in ['RLHFlow/Llama3.1-8B-PRM-Deepseek-Data']:
-    step_tag = '\n\n'
+    step_tag = '\n\n+'
     # step_tag = 'ки'
 elif config.verification_model in ['peiyi9979/math-shepherd-mistral-7b-prm']:
     step_tag = 'ки'
@@ -37,6 +37,11 @@ if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM']:
     candidate_tokens = [plus_tag_id, minus_tag_id]
     # step_tag_id = tokenizer.encode(f"{step_tag}")[-1] 
     step_tag_id = 23535
+if config.verification_model in ['RLHFlow/Llama3.1-8B-PRM-Deepseek-Data']:
+    plus_tag_id = tokenizer.encode(good_token)[-1]
+    minus_tag_id = tokenizer.encode(bad_token)[-1]
+    candidate_tokens = [plus_tag_id, minus_tag_id]
+    step_tag_id = tokenizer.encode(f"{step_tag}")[-1] 
 elif config.verification_model in ['peiyi9979/math-shepherd-mistral-7b-prm']:
     candidate_tokens = tokenizer.encode(f"{good_token} {bad_token}")[1:]  # [648, 387]
     step_tag_id = tokenizer.encode(f"{step_tag}")[-1]  # 12902

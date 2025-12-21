@@ -35,7 +35,7 @@ gold_answers = data_loader.get_gold_answers()
 # if dataset_name=='MATH':
 #     subject, level = data_loader.get_other_information()
 # data_loader.print_avg_tokens(problems)
-answer_save_path = os.path.join(config.result_save_root_path, f'{dataset_name}-{config.prompt_strategy}-{sanitize(config.backend_LLM)}.txt')
+answer_save_path = os.path.join(config.result_save_root_path, f'{dataset_name}-{config.prompt_strategy}-{sanitize(config.backend_LLM)}-{sanitize(config.verification_model)}.txt')
 os.makedirs(config.result_save_root_path, exist_ok=True)
 print(f'[INFO] Answer save path: {answer_save_path}')
 

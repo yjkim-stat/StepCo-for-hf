@@ -16,7 +16,7 @@ if config.verification_model in ['UW-Madison-Lee-Lab/VersaPRM']:
 elif config.verification_model in ['peiyi9979/math-shepherd-mistral-7b-prm']:
     step_tag = 'ки'
 elif config.verification_model in ['RLHFlow/Llama3.1-8B-PRM-Deepseek-Data']:
-    step_tag = '\n\n'
+    step_tag = '\n\n+'
 else:
     raise KeyError()
 
