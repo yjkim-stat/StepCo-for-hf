@@ -9,7 +9,7 @@ class Config:
         # Dataset / pipeline
         # =========================
         self.dataset_name_list = [
-            'amc23',
+            'amc23', 'math500', 'minerva'
         ]
         self.dataset_root_path = os.getenv("DATASET_ROOT", None)
         self.prompt_strategy = "Stepwise-Correction"
@@ -25,7 +25,8 @@ class Config:
         # =========================
         # OpenAI일 때: 예) "gpt-4o"
         # HF일 때: 예) "meta-llama/Llama-3.1-8B-Instruct" / "google/gemma-3-12b-it"
-        self.backend_LLM = os.getenv("BACKEND_LLM", "google/gemma-3-27b-it")
+        # self.backend_LLM = os.getenv("BACKEND_LLM", "google/gemma-3-27b-it")
+        self.backend_LLM = os.getenv("BACKEND_LLM", "meta-llama/Llama-3.1-8B-Instruct")
 
         # -------- OpenAI params --------
         self.openai_LLM_base_url = os.getenv("OPENAI_BASE_URL", "xxx")

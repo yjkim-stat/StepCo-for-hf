@@ -26,6 +26,10 @@ class DataLoader:
     def read_dataset(self):
         if self.dataset_name == 'amc23':
             self.dataset = load_dataset('math-ai/amc23')['test']
+        elif self.dataset_name == 'math500':
+            self.dataset = load_dataset('HuggingFaceH4/MATH-500')['test']
+        elif self.dataset_name == 'minerva':
+            self.dataset = load_dataset('math-ai/minervamath')['test']
         else:
             raise KeyError()
         # with open(self.dataset_path, 'r') as f:
@@ -41,6 +45,10 @@ class DataLoader:
         #     problems = [conditions[idx] + ' ' + query[idx] for idx in range(len(conditions))]
         if self.dataset_name == 'amc23':
             problems = [data.get('question') for data in self.dataset]
+        elif self.dataset_name == 'math500':
+            problems = [data.get('problem') for data in self.dataset]
+        elif self.dataset_name == 'minerva':
+            problems = [data.get('question') for data in self.dataset]
         else:
             raise KeyError()
             # problems = [data.get('original_question') for data in self.dataset]
@@ -53,6 +61,10 @@ class DataLoader:
     def get_gold_answers(self):
         # gold_answers = [data.get('gold_answer') if self.dataset_name != 'ASDiv' else data.get('Answer') for data in self.dataset]
         if self.dataset_name == 'amc23':
+            gold_answers = [data.get('answer') for data in self.dataset]
+        elif self.dataset_name == 'math500':
+            gold_answers = [data.get('answer') for data in self.dataset]
+        elif self.dataset_name == 'minerva':
             gold_answers = [data.get('answer') for data in self.dataset]
         else:
             raise KeyError()
