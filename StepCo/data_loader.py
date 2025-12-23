@@ -26,6 +26,8 @@ class DataLoader:
     def read_dataset(self):
         if self.dataset_name == 'amc23':
             self.dataset = load_dataset('math-ai/amc23')['test']
+        elif self.dataset_name == 'olympiad':
+            self.dataset = load_dataset('Hothan/OlympiadBench', 'OE_TO_maths_en_COMP')['train']
         elif self.dataset_name == 'math500':
             self.dataset = load_dataset('HuggingFaceH4/MATH-500')['test']
         elif self.dataset_name == 'minerva':
@@ -48,6 +50,8 @@ class DataLoader:
         #     query = [data.get('Question') for data in self.dataset]
         #     problems = [conditions[idx] + ' ' + query[idx] for idx in range(len(conditions))]
         if self.dataset_name == 'amc23':
+            problems = [data.get('question') for data in self.dataset]
+        elif self.dataset_name == 'olympiad':
             problems = [data.get('question') for data in self.dataset]
         elif self.dataset_name == 'math500':
             problems = [data.get('problem') for data in self.dataset]
@@ -72,6 +76,8 @@ class DataLoader:
             gold_answers = [data.get('answer') for data in self.dataset]
         elif self.dataset_name == 'math500':
             gold_answers = [data.get('answer') for data in self.dataset]
+        elif self.dataset_name == 'olympiad':
+            gold_answers = [data.get('final_answer')[0] for data in self.dataset]
         elif self.dataset_name == 'minerva':
             gold_answers = [data.get('answer') for data in self.dataset]
         elif self.dataset_name == 'aime2024':

@@ -10,7 +10,7 @@ from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
 )
-from transformers import Gemma3ForConditionalGeneration
+# from transformers import Gemma3ForConditionalGeneration
 
 from config import Config
 
