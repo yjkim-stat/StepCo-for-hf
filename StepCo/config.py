@@ -11,6 +11,7 @@ class Config:
         self.dataset_name_list = [
             'amc23', 'math500', 'minerva',
             'aime2025', 'aime2024',
+            'olympiad',
         ]
         self.dataset_root_path = os.getenv("DATASET_ROOT", None)
         self.prompt_strategy = "Stepwise-Correction"
