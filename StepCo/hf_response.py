@@ -10,7 +10,7 @@ from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
 )
-# from transformers import Gemma3ForConditionalGeneration
+from transformers import Gemma3ForConditionalGeneration
 
 from config import Config
 
@@ -55,7 +55,7 @@ def _load_hf_once(model_name: str, cache_dir: str | None = None):
     # ===============================
     # LLaMA family
     # ===============================
-    if "llama" in model_name.lower():
+    if ("llama" in model_name.lower()) or ('qwen' in model_name.lower()):
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             torch_dtype=torch.float16,
